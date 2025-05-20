@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Compressor Final Project</title>
+  <style>
+  
+  </style>
+  </head>
+  <body>
+  <h1> Wijaya File Compressor </h1>
+
+<form id = "uploadForm">
+<input type = "file" id="fileInput" multiple required>
+  <button type= "submit"> Compress File </button>
+  </form>
+  <a id="downloadLink" style="display:none;"> Download compressed file </a>
+
+<script>
+document.getElementById('uploadForm').onsubmit = async function(event) {
+  event.preventDefault();
+  const files = document.getElementById('fileInput').files;
+  const formData = new formData();
+
+  for(let file of files) {
+    formData.append('files[]', file);
+  }
+  const response = await fetch('/compress', {
+    method: 'POST', body: formData});
+
+  if (response.ok) {
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.getElementById('downloadLink');
+    downloadLink.href = url;
+    downloadLink.download = 'compressed.zip';
+    downloadLink.style.display = 'block';
+    downloadLink.innerText = 'Download Compressed File';
+  }
+};
+</script>
+  </body>
+</html>
