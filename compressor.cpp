@@ -75,6 +75,26 @@ string compress(const string& input) {
   return compressedOut;
 }
 
+string decode(Node* root, const string& compressed) {    // The function for decoding the compressed
+      string outputDecoded; // Decoded output
+      Node* currentNode = root;
+
+      for (char bit: compressed) {
+            if (bit == '0') {
+                  currentNode = currentNode->left;
+            } else {
+                  currentNode = currentNode->right;
+            }
+
+            // If a leaf node is reached, add character to output.
+            if (currentNode->left == nullptr && currentNode->right == nullptr) {
+                  outputDecoded += currentNode->ch;
+                  currentNode = root;   // Reset to root for next character.
+            }
+      }
+      return outputDecoded;
+}
+
 //void deleteTree(Node* root) {
 //}
 
