@@ -5,25 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ZIP File Compressor</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
   <style>
-    /* [Same CSS as you provided, unchanged for brevity] */
+    body {
+      background-color: #0d0d0d;
+      color: #e0e0e0;
+      font-family: 'Rajdhani', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      color: #00ffe7;
+      margin-bottom: 30px;
+    }
+
+    .file-display-container {
+      margin-bottom: 20px;
+    }
+
+    .custom-file-upload {
+      padding: 12px 24px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      background: #111;
+      border: 2px solid #00ffe7;
+      color: #00ffe7;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .custom-file-upload:hover {
+      background: #00ffe7;
+      color: #000;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-names {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .futuristic-btn {
+      padding: 12px 30px;
+      font-family: 'Orbitron', sans-serif;
+      background: #00ffe7;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .futuristic-btn:hover {
+      background: #00d1b5;
+    }
+
+    .download-link {
+      color: #00ffe7;
+      font-weight: 600;
+      text-decoration: underline;
+      font-size: 16px;
+      display: none;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #00ffe7;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <h1>ZIP File Compressor</h1>
-    <form id="uploadForm">
-      <div class="file-display-container">
-        <label for="fileInput" class="custom-file-upload">
-          Select Files
-          <input type="file" id="fileInput" name="files[]" multiple required />
-        </label>
-        <div class="file-names" id="fileList">
-          <h3>Selected Files</h3>
-          <ul id="fileNamesList"></ul>
-        </div>
-      </div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="fileInput" class="custom-file-upload">Select Files</label>
+      <input type="file" id="fileInput" name="file" required />
+      <div class="file-names" id="fileNamesList">No file selected</div>
 
       <div class="actions">
         <button type="submit" class="futuristic-btn">Compress File</button>
@@ -40,25 +132,22 @@
   <script>
     const fileInput = document.getElementById('fileInput');
     const fileNamesList = document.getElementById('fileNamesList');
-    const downloadLink = document.getElementById('downloadLink');
 
     fileInput.addEventListener('change', () => {
-      fileNamesList.innerHTML = '';
-      for (let file of fileInput.files) {
-        const li = document.createElement('li');
-        li.textContent = file.name;
-        fileNamesList.appendChild(li);
+      if (fileInput.files.length > 0) {
+        fileNamesList.textContent = fileInput.files[0].name;
+      } else {
+        fileNamesList.textContent = 'No file selected';
       }
     });
 
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
-      const formData = new FormData();
-      for (let file of fileInput.files) {
-        formData.append('files[]', file);
-      }
 
-      const response = await fetch('/compress', {
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      const response = await fetch('http://localhost:18080/compress', {
         method: 'POST',
         body: formData
       });
@@ -66,11 +155,12 @@
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        downloadLink.href = url;
-        downloadLink.download = "compressed.huff";
-        downloadLink.style.display = 'inline-block';
+        const link = document.getElementById('downloadLink');
+        link.href = url;
+        link.download = 'compressed.huff';
+        link.style.display = 'inline-block';
       } else {
-        alert("Compression failed: " + response.statusText);
+        alert("Compression failed.");
       }
     };
   </script>
