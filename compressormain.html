@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zippers - ZIP File Compressor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rajdhani', sans-serif;
+      background-color: #101820;
+      color: #f1f1f1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #1f1f2e;
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 15px;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffe0;
+      font-size: 24px;
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .drop-zone {
+      background-color: #262626;
+      border: 2px dashed #00ffe0;
+      padding: 60px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .drop-zone:hover {
+      background-color: #2e2e2e;
+    }
+
+    .drop-zone i {
+      font-size: 48px;
+      color: #00ffe0;
+    }
+
+    .drop-zone-text {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+    #fileList {
+      margin: 20px 0;
+    }
+
+    .futuristic-btn {
+      background-color: #00ffe0;
+      color: #101820;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .futuristic-btn:hover {
+      background-color: #00d6b0;
+    }
+
+    .download-link {
+      display: block;
+      margin-top: 20px;
+      color: #00ffe0;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="your-logo-path.png" alt="Zippers Logo" />
+  <h1>Zippers</h1>
+</header>
+
+<div class="wrapper">
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label for="fileInput" class="drop-zone">
+      <i>☁️</i>
+      <div class="drop-zone-text">Drop files or click to upload</div>
+      <input type="file" id="fileInput" name="files" multiple required style="display:none" />
+    </label>
+
+    <ul id="fileList"></ul>
+    <button type="submit" class="futuristic-btn">Compress File</button>
+  </form>
+
+  <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
+
+  <a href="convert.html" class="futuristic-btn" style="margin-top: 20px;">File Converter</a>
+</div>
+
+<footer>
+  <a href="about.html">About Us</a>
+</footer>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const fileList = document.getElementById('fileList');
+
+  document.querySelector('.drop-zone').addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', () => {
+    fileList.innerHTML = '';
+    for (let file of fileInput.files) {
+      const li = document.createElement('li');
+      li.textContent = file.name;
+      fileList.appendChild(li);
+    }
+  });
+
+  document.getElementById('uploadForm').onsubmit = async function(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    for (let file of fileInput.files) {
+      formData.append('files', file);
+    }
+
+    const response = await fetch('/compress', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.getElementById('downloadLink');
+      link.href = url;
+      link.download = 'compressed.zip';
+      link.style.display = 'inline-block';
+    }
+  };
+</script>
+
+</body>
+</html>
