@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <h1>File Converter</h1>
+    <form id="convertForm" enctype="multipart/form-data">
+      <label for="fileInput" class="custom-file-upload">
+        Select File to Convert
+        <input type="file" id="fileInput" name="file" required />
+      </label>
+
+      <select id="formatSelect" name="format" required>
+        <option value="" disabled selected>Select target format</option>
+        <optgroup label="Images">
+          <option value="jpg">JPG</option>
+          <option value="png">PNG</option>
+          <option value="webp">WEBP</option>
+        </optgroup>
+        <optgroup label="Audio/Video">
+          <option value="mp3">MP3</option>
+          <option value="wav">WAV</option>
+          <option value="ogg">OGG</option>
+          <option value="mp4">MP4</option>
+        </optgroup>
+        <optgroup label="Documents">
+          <option value="pdf">PDF</option>
+          <option value="txt">TXT</option>
+          <option value="docx">DOCX</option>
+          <option value="html">HTML</option>
+        </optgroup>
+      </select>
+
+      <button type="submit" class="futuristic-btn">Convert File</button>
+    </form>
+
+    <a id="downloadLink" class="download-link" style="display:none; margin-top: 20px;">Download Converted File</a>
+
+    <a href="index.html" class="download-link" style="margin-top: 40px; display: inline-block;">⬅ Back to Main Page</a>
+  </div>
+
+  <footer>
+    <a href="about.html">About Us</a>
+  </footer>
+
+  <script>
+    document.getElementById('convertForm').onsubmit = async function(event) {
+      event.preventDefault();
+      const formData = new FormData();
+      const fileInput = document.getElementById('fileInput');
+      const formatSelect = document.getElementById('formatSelect');
+
+      if (!fileInput.files.length || !formatSelect.value) {
+        alert("Please select a file and a target format.");
+        return;
+      }
+
+      formData.append('file', fileInput.files[0]);
+      formData.append('format', formatSelect.value);
+
+      const response = await fetch('/convert', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = url;
+        downloadLink.download = 'converted.' + formatSelect.value;
+        downloadLink.style.display = 'inline-block';
+        downloadLink.textContent = 'Download Converted File';
+      } else {
+        alert("Conversion failed: " + response.statusText);
+      }
+    };
+  </script>
+</body>
+</html>
