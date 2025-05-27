@@ -119,10 +119,30 @@ void writeBinary(const string& filename, const vector<unsigned char>& data) {
       file.write(reinterpret_cast<const char*>(data.data()), data.size());
 }
 
+void handleUpload (const crow::request& req, crow::response& res) {
+      auto files = req.get_file("files[]");
+      vector<unsigned char> fileData(files.size());
+
+      for (const auto& file: files) {
+            ifstream inputFile(file.path, ios::binary);
+            vector<unsigned char> buffer ((ifstreambuf_iterator<char>(inputFile)), ifstreambuf_iterator<char>());
+            fileData.insert(fileData.end(), buffer.begin(), buffer.end());
+      }
+
+      vector<unsigned char> compressedData = compressed(fileData);
+
+      res.set_header("Content-Type", "application/zip");
+      res.set_header("Content-Disposition", "attachment; filename=\"compressed.zip\"");
+      res.write((const char*)compressedData.data(), compressedData.size());
+      res.end();
+      }
+
 int main() {
   crow::SimpleApp app;
 
-  CROW_ROUTE(app, "/compress").methods("POST"_method)([](const crow::request& req) {
-    
-  }
+  CROW_ROUTE(app, "/compress").methods("POST"_method)([](const crow::request& req, crow::response& res) {
+    const char* zip filename = "compressed.zip";
+        handleUpload(req, res)
+  });
+      app.port(18080)multithreaded().run();
 }
