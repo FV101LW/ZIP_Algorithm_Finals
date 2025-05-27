@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <div class="background"></div>
+
   <div class="wrapper">
     <h1>ZIP File Compressor</h1>
     <form id="uploadForm">
@@ -17,10 +19,17 @@
         <span>Select Files</span>
         <input type="file" id="fileInput" multiple required />
       </label>
-      <button type="submit" class="btn">⚡ Compress</button>
+      <button type="submit" class="futuristic-btn">⚡ Compress File</button>
     </form>
     <a id="downloadLink" class="download-link" style="display: none;">⬇ Download Compressed File</a>
   </div>
+
+  <footer>
+    <div class="about-section">
+      <a href="about.html">About Us</a>
+      <p>Char 1123532 • Weili 1123533 • Max 1123534 • Reynard 1111549</p>
+    </div>
+  </footer>
 
   <script>
     document.getElementById('uploadForm').onsubmit = async function(event) {
