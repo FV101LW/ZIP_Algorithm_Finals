@@ -10,24 +10,27 @@
 <body>
   <div class="wrapper">
     <h1>File Converter</h1>
+
     <form id="convertForm" enctype="multipart/form-data">
-      <input type="file" id="convertFileInput" name="file" required style="display:none;" />
+      <!-- Hidden file input -->
+      <input type="file" id="convertFileInput" name="file" required style="display: none;" />
       <label for="convertFileInput" class="custom-file-upload">Select File</label>
-      
+      <p id="fileNameDisplay" class="file-name-display">No file selected</p>
+
       <select id="convertCategory" required>
         <option value="">Select Category</option>
         <option value="images">Images</option>
         <option value="documents">Documents</option>
         <option value="audio_video">Audio & Video</option>
       </select>
-      
+
       <select id="convertType" required>
         <option value="">Select Target Type</option>
-        <!-- Options populated dynamically based on category -->
       </select>
-      
+
       <button type="submit" class="futuristic-btn">Convert File</button>
     </form>
+
     <a id="convertedDownloadLink" class="download-link" style="display:none;">Download Converted File</a>
   </div>
 
@@ -44,7 +47,10 @@
 
     const categorySelect = document.getElementById('convertCategory');
     const typeSelect = document.getElementById('convertType');
+    const fileInput = document.getElementById('convertFileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
 
+    // Update convertType options based on category
     categorySelect.addEventListener('change', () => {
       const types = categoryToTypes[categorySelect.value] || [];
       typeSelect.innerHTML = '<option value="">Select Target Type</option>';
@@ -56,10 +62,16 @@
       });
     });
 
+    // Show selected file name
+    fileInput.addEventListener('change', () => {
+      fileNameDisplay.textContent = fileInput.files.length > 0
+        ? `Selected: ${fileInput.files[0].name}`
+        : 'No file selected';
+    });
+
+    // Submit and download
     document.getElementById('convertForm').onsubmit = async (event) => {
       event.preventDefault();
-
-      const fileInput = document.getElementById('convertFileInput');
       if (!fileInput.files.length) return alert('Please select a file.');
 
       const formData = new FormData();
