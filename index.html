@@ -13,44 +13,52 @@
     }
 
     body {
-      background: linear-gradient(145deg, #0a0a2a 0%, #1a1a3d 100%);
-      color: #e0e0f5;
+      background: linear-gradient(135deg, #1a002a 0%, #2a003f 100%);
+      color: #f0d9ff;
       font-family: 'Rajdhani', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background-image: url('https://i.pinimg.com/originals/11/07/64/110764fbdb83eeb5b8d7aaf510bff59c.jpg'); /* Anime BG */
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
     }
 
     header {
       display: flex;
       align-items: center;
       padding: 20px 40px;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid #2c2c4d;
+      background: rgba(0, 0, 0, 0.6);
+      border-bottom: 1px solid #50007a;
     }
 
     .logo {
-      height: 50px;
+      height: 60px;
+      border-radius: 50%;
       margin-right: 20px;
     }
 
     .title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 28px;
-      color: #72f0ff;
-      text-shadow: 0 0 8px #72f0ff;
+      font-size: 30px;
+      color: #ff8be7;
+      text-shadow: 0 0 8px #ff8be7;
     }
 
     .wrapper {
       max-width: 1000px;
       margin: auto;
       padding: 60px 30px 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 18px;
+      box-shadow: 0 0 24px rgba(255, 145, 234, 0.2);
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 34px;
-      color: #72f0ff;
+      color: #ffb3f7;
       margin-bottom: 40px;
       text-align: center;
     }
@@ -66,19 +74,19 @@
       padding: 16px 30px;
       font-family: 'Orbitron', sans-serif;
       font-size: 16px;
-      background: rgba(114, 240, 255, 0.08);
-      border: 2px solid #72f0ff;
-      color: #72f0ff;
+      background: rgba(255, 137, 232, 0.1);
+      border: 2px solid #ff8be7;
+      color: #ff8be7;
       border-radius: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
       text-align: center;
-      box-shadow: 0 0 12px rgba(114, 240, 255, 0.3);
+      box-shadow: 0 0 14px rgba(255, 145, 234, 0.4);
     }
 
     .custom-file-upload:hover {
-      background: #72f0ff;
-      color: #000;
+      background: #ff8be7;
+      color: #1a002a;
     }
 
     input[type="file"] {
@@ -86,19 +94,19 @@
     }
 
     .file-names {
-      background: rgba(114, 240, 255, 0.06);
-      border: 1px solid #72f0ff;
+      background: rgba(255, 137, 232, 0.08);
+      border: 1px solid #ff8be7;
       border-radius: 16px;
       padding: 24px;
       max-height: 260px;
       overflow-y: auto;
-      box-shadow: 0 0 20px rgba(114, 240, 255, 0.15);
+      box-shadow: 0 0 20px rgba(255, 145, 234, 0.2);
     }
 
     .file-names h3 {
       font-family: 'Orbitron', sans-serif;
       font-size: 18px;
-      color: #72f0ff;
+      color: #ff8be7;
       margin-bottom: 10px;
     }
 
@@ -124,8 +132,8 @@
       padding: 14px 34px;
       font-family: 'Orbitron', sans-serif;
       font-size: 15px;
-      background: #72f0ff;
-      color: #000;
+      background: #ff8be7;
+      color: #2a003f;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -133,12 +141,12 @@
     }
 
     .futuristic-btn:hover {
-      background: #54c7db;
+      background: #db6cd4;
       transform: scale(1.05);
     }
 
     .download-link {
-      color: #72f0ff;
+      color: #ffb3f7;
       font-weight: 600;
       text-decoration: underline;
       font-size: 16px;
@@ -149,12 +157,13 @@
       text-align: center;
       padding: 30px 0;
       font-size: 14px;
-      color: #aaa;
+      color: #d0a8d9;
+      background-color: rgba(0, 0, 0, 0.4);
       margin-top: auto;
     }
 
     footer a {
-      color: #72f0ff;
+      color: #ffb3f7;
       text-decoration: none;
     }
 
@@ -166,17 +175,22 @@
       .grid-container {
         grid-template-columns: 1fr;
       }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Neon_open_sign.png" alt="Logo" class="logo" />
+    <img src="https://i.pinimg.com/originals/71/18/c2/7118c2051620244534c44f12a3f66a77.jpg" alt="Logo" class="logo" />
     <div class="title">ZIP File Compressor</div>
   </header>
 
   <div class="wrapper">
-    <h1>Compress Your Files in Style</h1>
+    <h1>Compress Your Files With Anime Power ✨</h1>
     <form id="uploadForm" enctype="multipart/form-data">
       <div class="grid-container">
         <label for="fileInput" class="custom-file-upload">
