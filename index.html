@@ -1,65 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
-    <title>File Compressor Final Project</title>
-  <style>
-    body {
-      background-color: #592693;
-      font-family: "Nabla", system-ui;
-      font-optical-sizing: auto; 
-      font-weight: 400;
-      font-style: normal;
-      font-color: white;
-      text-align: center;
-      animation: fadeIn 2s ease-in-out;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>File Compressor Final Project</title>
+</head>
+<body>
+  <h1>Wijaya File Compressor</h1>
 
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-  </style>
-  </head>
-  <body>
-  <h1> Wijaya File Compressor </h1>
-
-<form id = "uploadForm">
-<input type = "file" id="fileInput" multiple required>
-  <button type= "submit"> Compress File </button>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" multiple required>
+    <button type="submit">Compress File</button>
   </form>
-  <a id="downloadLink" style="display:none;"> Download compressed file </a>
 
-<script>
-document.getElementById('uploadForm').onsubmit = async function(event) {
-  event.preventDefault();
-  const files = document.getElementById('fileInput').files;
-  const formData = new formData();
+  <a id="downloadLink" style="display:none;">Download compressed file</a>
 
-  for(let file of files) {
-    formData.append('files[]', file);
-  }
-  const response = await fetch('/compress', {
-    method: 'POST', body: formData});
+  <script>
+    document.getElementById('uploadForm').onsubmit = async function(event) {
+      event.preventDefault();
+      const files = document.getElementById('fileInput').files;
+      const formData = new FormData();
 
-  if (response.ok) {
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const downloadLink = document.getElementById('downloadLink');
-    downloadLink.href = url;
-    downloadLink.download = 'compressed.zip';
-    downloadLink.style.display = 'block';
-    downloadLink.innerText = 'Download Compressed File';
-  }
-};
-</script>
-  </body>
+      for (let file of files) {
+        formData.append('files[]', file);
+      }
+
+      const response = await fetch('/compress', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = url;
+        downloadLink.download = 'compressed.zip';
+        downloadLink.style.display = 'inline-block';
+        downloadLink.innerText = 'Download Compressed File';
+      }
+    };
+  </script>
+</body>
 </html>
