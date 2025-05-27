@@ -3,19 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <title>About Us</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a1c20;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      background-color: #2a2d33;
+      border-radius: 12px;
+      padding: 36px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #f0f0f0;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      color: #f0f0f0;
+    }
+
+    .about-text {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      color: #cccccc;
+    }
+
+    .team-list {
+      list-style: none;
+      padding-left: 0;
+      font-size: 15px;
+      color: #dddddd;
+    }
+
+    .team-list li {
+      margin-bottom: 8px;
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: #bbbbbb;
+      text-decoration: underline;
+      font-size: 14px;
+    }
+
+    .download-link:hover {
+      color: #ffffff;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <div class="wrapper about-wrapper">
+  <div class="wrapper">
     <h1>About This Project</h1>
     <p class="about-text">
-      We made this as a project for practice to understand the deeper workings of things like heaps and Huffman's algorithm. 
-      The project itself is simple and meant to be universally used as well.
+      We created this project as a hands-on exercise to better understand data structures like heaps and Huffman's algorithm.
+      It's meant to be lightweight and user-friendly for a wide range of users.
     </p>
     <p class="about-text">
-      As it currently stands, for the sake of things like mobile phones, the easiest way for users to compress a file is through third-party software. 
-      This is where our website comes in — offering a lightweight, browser-based solution that doesn't require installation or technical experience.
+      Since many mobile users rely on third-party apps to compress files, we aimed to offer a clean, browser-based alternative
+      that doesn’t require installation or technical knowledge.
     </p>
 
     <h2>Meet the Team</h2>
