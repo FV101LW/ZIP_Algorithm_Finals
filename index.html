@@ -6,21 +6,53 @@
   <title>ZIP File Compressor</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    .file-display-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-top: 20px;
+    }
+
+    .file-names {
+      font-family: 'Rajdhani', sans-serif;
+      color: #fff;
+      background-color: #1e1e1e;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 300px;
+      word-break: break-word;
+    }
+
+    .file-names ul {
+      padding-left: 20px;
+    }
+
+    .file-names li {
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
   <div class="wrapper">
     <h1>ZIP File Compressor</h1>
     <form id="uploadForm" enctype="multipart/form-data">
-      <label for="fileInput" class="custom-file-upload">
-        Select Files
-        <input type="file" id="fileInput" name="files" multiple required />
-      </label>
+      <div class="file-display-container">
+        <label for="fileInput" class="custom-file-upload">
+          Select Files
+          <input type="file" id="fileInput" name="files" multiple required />
+        </label>
+        <div class="file-names" id="fileList">
+          <strong>Selected Files:</strong>
+          <ul id="fileNamesList"></ul>
+        </div>
+      </div>
       <button type="submit" class="futuristic-btn">Compress File</button>
     </form>
     <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
     <a href="convert.html" class="futuristic-btn" style="margin-top: 20px; display: inline-block;">
-  File Converter
-</a>
+      File Converter
+    </a>
   </div>
 
   <footer>
@@ -28,10 +60,23 @@
   </footer>
 
   <script>
+    const fileInput = document.getElementById('fileInput');
+    const fileNamesList = document.getElementById('fileNamesList');
+
+    fileInput.addEventListener('change', () => {
+      fileNamesList.innerHTML = '';
+      const files = fileInput.files;
+      for (let file of files) {
+        const li = document.createElement('li');
+        li.textContent = file.name;
+        fileNamesList.appendChild(li);
+      }
+    });
+
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
       const formData = new FormData();
-      const files = document.getElementById('fileInput').files;
+      const files = fileInput.files;
       for (let file of files) {
         formData.append('files', file);
       }
