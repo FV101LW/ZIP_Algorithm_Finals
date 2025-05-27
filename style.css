@@ -107,3 +107,10 @@ footer p {
   color: #777;
   margin-top: 40px;
 }
+.file-name-display {
+  margin-top: 10px;
+  font-size: 0.95em;
+  color: #b8dff4;
+  font-style: italic;
+  transition: color 0.3s ease;
+}
