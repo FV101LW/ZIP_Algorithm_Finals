@@ -1,70 +1,89 @@
+/* Base layout */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
-  color: #00ffe1;
+  background: radial-gradient(circle at top, #0d0d0d, #050505);
+  color: #00ffe0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.container {
-  background: rgba(30, 30, 30, 0.8);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px #00ffe1;
+/* Wrapper container */
+.wrapper {
   text-align: center;
-  width: 400px;
+  padding: 40px;
+  background: rgba(20, 20, 20, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 0 20px #00ffe0;
+  width: 90%;
+  max-width: 450px;
 }
 
+/* Heading */
 h1 {
   font-family: 'Nabla', cursive;
-  font-size: 2.5em;
-  color: #00ffe1;
-  margin-bottom: 20px;
+  font-size: 3em;
+  margin-bottom: 30px;
+  color: #00ffe0;
+  text-shadow: 0 0 10px #00ffe0;
 }
 
-form input[type="file"] {
-  background: #1a1a1a;
-  border: 2px solid #00ffe1;
-  color: #00ffe1;
-  padding: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 10px;
-}
-
-button {
-  background: #00ffe1;
-  color: #000;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 10px;
+/* Custom file input style */
+.custom-file-upload {
+  display: block;
+  padding: 14px 25px;
+  border-radius: 12px;
+  background-color: #111;
+  color: #00ffe0;
   font-size: 1em;
   cursor: pointer;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px #00ffe0;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px #00ffe1, 0 0 20px #00ffe1 inset;
+  position: relative;
+  overflow: hidden;
+}
+.custom-file-upload:hover {
+  background-color: #0a0a0a;
+  box-shadow: 0 0 15px #00ffe0;
+}
+.custom-file-upload input[type="file"] {
+  display: none;
 }
 
-button:hover {
-  background: #00ccba;
-  box-shadow: 0 0 20px #00ccba, 0 0 30px #00ccba inset;
+/* Button styling */
+.btn {
+  background: #00ffe0;
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00ffe0;
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background: #00ccb5;
+  box-shadow: 0 0 20px #00ccb5;
 }
 
+/* Download link */
 .download-link {
-  margin-top: 20px;
   display: inline-block;
-  color: #00ffe1;
+  margin-top: 25px;
+  color: #00ffe0;
   text-decoration: none;
-  border: 1px solid #00ffe1;
-  padding: 10px 20px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: 2px solid #00ffe0;
   border-radius: 10px;
-  transition: 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
-
 .download-link:hover {
-  background-color: #00ffe1;
+  background-color: #00ffe0;
   color: #000;
 }
