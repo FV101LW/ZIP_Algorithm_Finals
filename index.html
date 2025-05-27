@@ -3,42 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZIP Compressor - Sci-Fi UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet"/>
+  <title>ZIP File Compressor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="background"></div>
-
   <div class="wrapper">
-    <h1>🔷 ZIP File Compressor 🔷</h1>
+    <h1>ZIP File Compressor</h1>
     <form id="uploadForm" enctype="multipart/form-data">
       <label for="fileInput" class="custom-file-upload">
         Select Files
         <input type="file" id="fileInput" name="files" multiple required />
       </label>
-      <button type="submit" class="futuristic-btn">🚀 Compress File</button>
+      <button type="submit" class="futuristic-btn">Compress File</button>
     </form>
-    <a id="downloadLink" class="download-link" style="display: none;">⬇ Download</a>
+    <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
   </div>
 
   <footer>
-    <div class="about-section">
-      <a href="about.html">About Us</a>
-    </div>
+    <a href="about.html">About Us</a>
   </footer>
 
   <script>
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
-      const files = document.getElementById('fileInput').files;
       const formData = new FormData();
-
+      const files = document.getElementById('fileInput').files;
       for (let file of files) {
-        formData.append('files[]', file);
+        formData.append('files', file);
       }
 
-      try{
       const response = await fetch('/compress', {
         method: 'POST',
         body: formData
@@ -47,19 +41,11 @@
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        const downloadLink = document.getElementById('downloadLink');
-        downloadLink.href = url;
-        downloadLink.download = 'compressed.zip';
-        downloadLink.style.display = 'inline-block';
-        downloadLink.innerText = 'Download Compressed File';
-      } else {
-        const data = await response.json();
-        document.getElementById('result').innerText = 'Compressed data: ' + data.compressed;
-        }
+        const link = document.getElementById('downloadLink');
+        link.href = url;
+        link.download = 'compressed.zip';
+        link.style.display = 'inline-block';
       }
-      .catch(error) { 
-        console.error('Error:', error);
-      }   
     };
   </script>
 </body>
