@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZIP File Compressor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZIP File Compressor - Sci-Fi Dark Theme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
+    /* Reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,64 +14,85 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f2f4f7, #e7ebee);
-      color: #333;
+      background: #0d0f17;
+      font-family: 'Share Tech Mono', monospace;
+      color: #a0c4ff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 40px 20px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
     }
 
     h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-      color: #3c3c3c;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
+      font-size: 3rem;
+      margin-bottom: 0.2em;
+      color: #61dafb;
+      text-shadow:
+        0 0 8px #61dafb,
+        0 0 20px #61dafb,
+        0 0 30px #0ff;
     }
 
     p.subtitle {
-      font-size: 16px;
-      color: #6a6a6a;
-      margin-bottom: 40px;
+      font-size: 1rem;
+      color: #5577aa;
+      margin-bottom: 2.5em;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-shadow: 0 0 3px #224466;
     }
 
     .container {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      padding: 40px;
-      max-width: 850px;
+      background: #12141d;
+      border-radius: 20px;
+      box-shadow:
+        0 0 20px #0ff,
+        inset 0 0 40px #093544;
+      padding: 40px 50px;
+      max-width: 900px;
       width: 100%;
+      border: 1px solid #0ff;
+      backdrop-filter: blur(8px);
     }
 
     .form-section {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 2rem;
     }
 
     .upload-area {
       display: flex;
-      gap: 24px;
+      gap: 2rem;
       flex-wrap: wrap;
       justify-content: space-between;
     }
 
     .custom-file-upload {
-      background-color: #a0c4ff;
-      color: #fff;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 10px;
+      background: linear-gradient(145deg, #0ff, #005566);
+      color: #0d0f17;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1.1rem;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 15px;
-      transition: background-color 0.3s ease;
+      border: none;
+      box-shadow:
+        0 0 12px #0ff,
+        0 0 20px #00ffffaa;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
     }
-
     .custom-file-upload:hover {
-      background-color: #89b4ff;
+      background: linear-gradient(145deg, #33ffff, #008899);
+      box-shadow:
+        0 0 16px #33ffff,
+        0 0 30px #00ffffee;
     }
 
     input[type="file"] {
@@ -78,20 +100,26 @@
     }
 
     .file-names {
-      background-color: #f9fafe;
-      border: 1px solid #dde4f0;
-      border-radius: 10px;
-      padding: 20px;
+      background: #0e111a;
+      border: 1px solid #0ff;
+      border-radius: 14px;
+      padding: 20px 24px;
       flex: 1;
-      min-width: 280px;
-      max-height: 240px;
+      min-width: 300px;
+      max-height: 260px;
       overflow-y: auto;
+      box-shadow:
+        inset 0 0 12px #00ffffaa;
     }
 
     .file-names h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: #4b5b6b;
+      font-family: 'Orbitron', monospace;
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 0.6em;
+      color: #00ffff;
+      text-shadow: 0 0 8px #00ffffaa;
+      letter-spacing: 0.07em;
     }
 
     .file-names ul {
@@ -100,56 +128,84 @@
     }
 
     .file-names li {
-      font-size: 14px;
+      font-size: 0.95rem;
       padding: 6px 0;
-      border-bottom: 1px dashed #e0e0e0;
+      border-bottom: 1px dashed #00334499;
+      color: #80bfff;
+      user-select: text;
+      transition: color 0.3s ease;
+    }
+    .file-names li:hover {
+      color: #33ffff;
+      cursor: default;
+      text-shadow: 0 0 8px #33ffffcc;
     }
 
     .actions {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      margin-top: 30px;
+      gap: 1.2rem;
+      margin-top: 3em;
     }
 
     .action-btn {
-      padding: 14px 32px;
-      font-size: 15px;
-      background-color: #bde0fe;
-      color: #333;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #0ff, #0099aa);
+      color: #0d0f17;
       border: none;
-      border-radius: 8px;
-      font-weight: 600;
+      border-radius: 12px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      box-shadow:
+        0 0 15px #0ff,
+        0 0 30px #00cccc;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      letter-spacing: 0.07em;
+      user-select: none;
     }
-
     .action-btn:hover {
-      background-color: #a2d2ff;
+      background: linear-gradient(135deg, #33ffff, #00bbbb);
+      box-shadow:
+        0 0 20px #33ffff,
+        0 0 45px #00ffffee;
+      color: #000;
     }
 
-    .download-link {
-      color: #5b78c7;
-      font-weight: 500;
-      font-size: 15px;
-      display: none;
+    #downloadLink {
+      color: #33ffff;
+      font-weight: 700;
+      font-size: 1.1rem;
       text-decoration: underline;
+      display: none;
+      margin-top: 0.5rem;
+      letter-spacing: 0.07em;
+      user-select: text;
+      text-shadow: 0 0 6px #00ffffaa;
+    }
+    #downloadLink:hover {
+      color: #00ffff;
+      text-shadow: 0 0 12px #00ffffee;
     }
 
     .footer {
       text-align: center;
-      margin-top: 50px;
-      font-size: 14px;
-      color: #888;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #336688;
+      letter-spacing: 0.07em;
+      user-select: none;
     }
-
     .footer a {
-      color: #5b78c7;
+      color: #33ffff;
       text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
-
     .footer a:hover {
+      color: #00ffff;
+      text-shadow: 0 0 8px #00ffffcc;
       text-decoration: underline;
     }
 
@@ -157,13 +213,16 @@
       .upload-area {
         flex-direction: column;
       }
+      .file-names {
+        min-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
   <h1>ZIP File Compressor</h1>
-  <p class="subtitle">Upload files and compress them into a single ZIP archive.</p>
+  <p class="subtitle">UPLOAD FILES & COMPRESS INTO A SINGLE ARCHIVE</p>
 
   <div class="container">
     <form id="uploadForm" enctype="multipart/form-data" class="form-section">
@@ -182,7 +241,7 @@
       <div class="actions">
         <button type="submit" class="action-btn">Compress Files</button>
         <a id="downloadLink" class="download-link">Download ZIP</a>
-        <a href="convert.html" class="action-btn">Go to File Converter</a>
+        <a href="convert.html" class="action-btn" style="background: linear-gradient(135deg, #9900ff, #6600cc); box-shadow: 0 0 15px #9933ff, 0 0 30px #6600cc;">Go to File Converter</a>
       </div>
     </form>
   </div>
@@ -225,6 +284,8 @@
         link.href = url;
         link.download = 'compressed.zip';
         link.style.display = 'inline-block';
+      } else {
+        alert('Compression failed. Please try again.');
       }
     };
   </script>
