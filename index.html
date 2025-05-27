@@ -11,14 +11,32 @@
       background-color: #0d0d0d;
       color: #e0e0e0;
       font-family: 'Rajdhani', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      color: #00ffe7;
+      margin-bottom: 30px;
     }
 
     .file-display-container {
       display: flex;
-      gap: 30px;
+      justify-content: center;
       align-items: flex-start;
-      margin-top: 30px;
+      gap: 30px;
       flex-wrap: wrap;
+      margin-bottom: 30px;
     }
 
     .custom-file-upload {
@@ -53,6 +71,7 @@
       width: 100%;
       box-shadow: 0 0 15px rgba(0, 255, 231, 0.3);
       backdrop-filter: blur(10px);
+      text-align: left;
     }
 
     .file-names h3 {
@@ -74,11 +93,18 @@
       padding: 6px 0;
       border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
       font-size: 15px;
-      word-break: break-all;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
     }
 
     .futuristic-btn {
-      margin-top: 20px;
       padding: 12px 30px;
       font-family: 'Orbitron', sans-serif;
       background: #00ffe7;
@@ -94,16 +120,15 @@
     }
 
     .download-link {
-      display: inline-block;
-      margin-top: 20px;
       color: #00ffe7;
       font-weight: 600;
       text-decoration: underline;
       font-size: 16px;
+      display: none;
     }
 
     footer {
-      margin-top: 40px;
+      margin-top: 50px;
       text-align: center;
       font-size: 14px;
     }
@@ -133,14 +158,13 @@
           <ul id="fileNamesList"></ul>
         </div>
       </div>
-      <button type="submit" class="futuristic-btn">Compress File</button>
+
+      <div class="actions">
+        <button type="submit" class="futuristic-btn">Compress File</button>
+        <a id="downloadLink" class="download-link">Download ZIP</a>
+        <a href="convert.html" class="futuristic-btn">File Converter</a>
+      </div>
     </form>
-
-    <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
-
-    <a href="convert.html" class="futuristic-btn" style="margin-top: 20px; display: inline-block;">
-      File Converter
-    </a>
   </div>
 
   <footer>
