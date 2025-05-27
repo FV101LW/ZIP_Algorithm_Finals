@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <title>File Compressor Final Project</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZIP File Compressor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Nabla&family=Orbitron:wght@500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>ZIP File Compressor</h1>
-
-  <form id="uploadForm">
-    <input type="file" id="fileInput" multiple required>
-    <button type="submit">Compress File</button>
-  </form>
-
-  <a id="downloadLink" style="display:none;">Download compressed file</a>
+  <div class="container">
+    <h1>ZIP File Compressor</h1>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" multiple required/>
+      <button type="submit">Compress Files</button>
+    </form>
+    <a id="downloadLink" class="download-link" style="display: none;">Download Compressed File</a>
+  </div>
 
   <script>
     document.getElementById('uploadForm').onsubmit = async function(event) {
