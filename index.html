@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZIP File Compressor</title>
+  <title>Futuristic ZIP Compressor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Nabla&family=Orbitron:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nabla&family=Orbitron:wght@600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="container">
+  <div class="wrapper">
     <h1>ZIP File Compressor</h1>
     <form id="uploadForm">
-      <input type="file" id="fileInput" multiple required/>
-      <button type="submit">Compress Files</button>
+      <label for="fileInput" class="custom-file-upload">
+        <span>Select Files</span>
+        <input type="file" id="fileInput" multiple required />
+      </label>
+      <button type="submit" class="btn">⚡ Compress</button>
     </form>
-    <a id="downloadLink" class="download-link" style="display: none;">Download Compressed File</a>
+    <a id="downloadLink" class="download-link" style="display: none;">⬇ Download Compressed File</a>
   </div>
 
   <script>
@@ -24,7 +27,6 @@
       event.preventDefault();
       const files = document.getElementById('fileInput').files;
       const formData = new FormData();
-
       for (let file of files) {
         formData.append('files[]', file);
       }
@@ -40,8 +42,7 @@
         const downloadLink = document.getElementById('downloadLink');
         downloadLink.href = url;
         downloadLink.download = 'compressed.zip';
-        downloadLink.style.display = 'inline-block';
-        downloadLink.innerText = 'Download Compressed File';
+        downloadLink.style.display = 'block';
       }
     };
   </script>
