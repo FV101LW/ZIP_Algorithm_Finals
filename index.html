@@ -31,12 +31,14 @@
   <script>
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
-      const formData = new FormData();
       const files = document.getElementById('fileInput').files;
+      const formData = new FormData();
+
       for (let file of files) {
-        formData.append('files', file);
+        formData.append('files[]', file);
       }
 
+      try{
       const response = await fetch('/compress', {
         method: 'POST',
         body: formData
@@ -45,11 +47,19 @@
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        const link = document.getElementById('downloadLink');
-        link.href = url;
-        link.download = 'compressed.zip';
-        link.style.display = 'inline-block';
+        const downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = url;
+        downloadLink.download = 'compressed.zip';
+        downloadLink.style.display = 'inline-block';
+        downloadLink.innerText = 'Download Compressed File';
+      } else {
+        const data = await response.json();
+        document.getElementById('result').innerText = 'Compressed data: ' + data.compressed;
+        }
       }
+      .catch(error) { 
+        console.error('Error:', error);
+      }   
     };
   </script>
 </body>
