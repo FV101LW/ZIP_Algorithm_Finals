@@ -1,148 +1,169 @@
 #include "crow_all.h"
-#include <zip.h>
 #include <iostream>
 #include <queue>
 #include <unordered_map>
 #include <vector>
-#include <string>
-#include <bitset>
+#include <fstream>
 
 using namespace std;
 
+// Huffman Tree node
 struct Node {
-      unsigned char ch; // For binary data & files(Videos, images, audio)
-      int freq;
-      Node* left;
-      Node* right;
+    unsigned char ch;
+    int freq;
+    Node* left;
+    Node* right;
 
-    Node (unsigned char character, freq frequency) : ch(character), freq(frequency), left(nullptr), right(nullptr) {}
+    Node(unsigned char character, int frequency) : ch(character), freq(frequency), left(nullptr), right(nullptr) {}
 };
 
-
-
-struct Compare() {
-       bool operator() (Node* left, Node* right) {
-         return left->freq > right->freq;
-       }
+// Comparator for priority queue
+struct Compare {
+    bool operator()(Node* left, Node* right) {
+        return left->freq > right->freq;
+    }
 };
 
+// Build Huffman Tree from frequency map
 Node* buildHuffmanTree(const unordered_map<unsigned char, int>& freqMap) {
-  priority_queue<Node*, vector<Node*>, Compare> minHeap;
+    priority_queue<Node*, vector<Node*>, Compare> minHeap;
 
-  for(const auto& pair : freqMap) {
-    minHeap.push(new Node(pair.first, pair.second));
-  }
+    for (const auto& pair : freqMap) {
+        minHeap.push(new Node(pair.first, pair.second));
+    }
 
-  while(minHeap.size() > 1) {
-    Node* left = minHeap.top(); minHeap.pop();
-    Node* right = minHeap.top(); minHeap.pop();
+    while (minHeap.size() > 1) {
+        Node* left = minHeap.top(); minHeap.pop();
+        Node* right = minHeap.top(); minHeap.pop();
 
-    Node* internalNode = newNode('\0', left->freq + right->freq);
-    internalNode->left = left;
-    internalNode->right = right;
+        Node* internalNode = new Node('\0', left->freq + right->freq);
+        internalNode->left = left;
+        internalNode->right = right;
 
-    minHeap.push(internalNode);
-  }
-  return minHeap.top();
+        minHeap.push(internalNode);
+    }
+    return minHeap.top();
 }
 
+// Recursively generate Huffman codes
 void generateCodes(Node* root, const string& code, unordered_map<unsigned char, string>& huffmanCodes) {
-  if(!root) return;
+    if (!root) return;
 
-  if(root->left == nullptr && root->right == nullptr) {
-    huffmanCodes[root->ch] = code;
-  }
+    if (!root->left && !root->right) {
+        huffmanCodes[root->ch] = code;
+    }
 
-  generateCodes(root->left, code + "0", huffmanCodes);
-  generateCodes(root->right, code + "1", huffmanCodes);
+    generateCodes(root->left, code + "0", huffmanCodes);
+    generateCodes(root->right, code + "1", huffmanCodes);
 }
 
-string compress(const string& input) {
-  unordered_map<unsigned char, int> freqMap;
+// Delete Huffman tree nodes
+void deleteTree(Node* root) {
+    if (!root) return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
 
-  for(unsigned char ch : input) {
-    freqMap[ch]++;
-  }
+// Pack vector<bool> bits into vector<unsigned char> bytes
+vector<unsigned char> packBits(const vector<bool>& bits) {
+    vector<unsigned char> bytes;
+    int bitCount = 0;
+    unsigned char currentByte = 0;
 
-  Node* root = buildHuffmanTree(freqMap); // Build Huffman tree
-  // Generate Huffman Algorithm
-  unordered_map<char, string> huffmanCodes;
+    for (bool bit : bits) {
+        currentByte = (currentByte << 1) | bit;
+        bitCount++;
+        if (bitCount == 8) {
+            bytes.push_back(currentByte);
+            bitCount = 0;
+            currentByte = 0;
+        }
+    }
+    // If bits remain not full byte, pad with 0s on the right
+    if (bitCount > 0) {
+        currentByte <<= (8 - bitCount);
+        bytes.push_back(currentByte);
+    }
+    return bytes;
+}
 
-  generateCodes(root, "", huffmanCodes);
+// Compress binary data with Huffman coding
+vector<unsigned char> compress(const vector<unsigned char>& input) {
+    // Build frequency map
+    unordered_map<unsigned char, int> freqMap;
+    for (unsigned char ch : input) {
+        freqMap[ch]++;
+    }
 
-  vector<bool> compressedOut;  // Create compressed output
-  for(unsigned char ch : input) {
+    // Build Huffman tree
+    Node* root = buildHuffmanTree(freqMap);
+
+    // Generate codes
+    unordered_map<unsigned char, string> huffmanCodes;
+    generateCodes(root, "", huffmanCodes);
+
+    // Encode input
+    vector<bool> compressedBits;
+    for (unsigned char ch : input) {
         string code = huffmanCodes[ch];
         for (char bit : code) {
-    compressedOut.push_back(bit == '1');
+            compressedBits.push_back(bit == '1');
         }
-  }
-  deleteTree(root);
-  return compressedOut;
+    }
+
+    // Pack bits into bytes
+    vector<unsigned char> compressedBytes = packBits(compressedBits);
+
+    deleteTree(root);
+
+    // NOTE: For real decompression, you also need to store the tree or codes as header.
+    // Here, for demo, we only return compressed data.
+
+    return compressedBytes;
 }
 
-vector<unsigned char> decode(Node* root, const vector<bool>& compressed) {    // The function for decoding the compressed
-      vector<unsigned char> outputDecoded; // Decoded output
-      Node* currentNode = root;
-
-      for (bool bit: compressed) {
-            if (bit == 0) {
-                  currentNode = currentNode->left;
-            } else {
-                  currentNode = currentNode->right;
-            }
-
-            // If a leaf node is reached, add character to output.
-            if (currentNode->left == nullptr && currentNode->right == nullptr) {
-                  outputDecoded.push_back(currentNode->ch);
-                  currentNode = root;   // Reset to root for next character.
-            }
-      }
-      return outputDecoded;
-}
-
-void deleteTree(Node* root) {
-      if (root) {
-            deleteTree(root->left);
-            deleteTree(root->right);
-            delete root;
-      }
-}
-
+// Read entire file as binary vector
 vector<unsigned char> readBinary(const string& filename) {
-      ifstream file (filename, ios::binary);
-      return vector<unsigned char>((ifstreambuf_iterator<char>(file)), istreambuf_iterator<char>());
+    ifstream file(filename, ios::binary);
+    return vector<unsigned char>((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 }
 
-void writeBinary(const string& filename, const vector<unsigned char>& data) {
-      ofstream file(filename, ios::binary);
-      file.write(reinterpret_cast<const char*>(data.data()), data.size());
+// Crow handler for file upload and compression
+void handleUpload(const crow::request& req, crow::response& res) {
+    auto files = req.get_file("files[]");
+    if (files.empty()) {
+        res.code = 400;
+        res.write("No file uploaded");
+        res.end();
+        return;
+    }
+
+    // For simplicity, compress the first uploaded file
+    auto& file = files[0];
+
+    // Read uploaded file content into vector<unsigned char>
+    ifstream inputFile(file.path, ios::binary);
+    vector<unsigned char> buffer((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
+
+    // Compress the data
+    vector<unsigned char> compressedData = compress(buffer);
+
+    // Set response headers to trigger file download
+    res.set_header("Content-Type", "application/octet-stream");
+    res.set_header("Content-Disposition", "attachment; filename=\"compressed.huff\"");
+
+    // Write compressed binary data to response
+    res.write((const char*)compressedData.data(), compressedData.size());
+    res.end();
 }
-
-void handleUpload (const crow::request& req, crow::response& res) {
-      auto files = req.get_file("files[]");
-      vector<unsigned char> fileData(files.size());
-
-      for (const auto& file: files) {
-            ifstream inputFile(file.path, ios::binary);
-            vector<unsigned char> buffer ((ifstreambuf_iterator<char>(inputFile)), ifstreambuf_iterator<char>());
-            fileData.insert(fileData.end(), buffer.begin(), buffer.end());
-      }
-
-      vector<unsigned char> compressedData = compressed(fileData);
-
-      res.set_header("Content-Type", "application/zip");
-      res.set_header("Content-Disposition", "attachment; filename=\"compressed.zip\"");
-      res.write((const char*)compressedData.data(), compressedData.size());
-      res.end();
-      }
 
 int main() {
-  crow::SimpleApp app;
+    crow::SimpleApp app;
 
-  CROW_ROUTE(app, "/compress").methods("POST"_method)([](const crow::request& req, crow::response& res) {
-    const char* zip filename = "compressed.zip";
-        handleUpload(req, res)
-  });
-      app.port(18080)multithreaded().run();
+    CROW_ROUTE(app, "/compress").methods("POST"_method)([](const crow::request& req, crow::response& res) {
+        handleUpload(req, res);
+    });
+
+    app.port(18080).multithreaded().run();
 }
