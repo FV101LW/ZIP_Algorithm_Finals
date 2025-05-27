@@ -2,24 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Us</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+  <title>About Us - ZIP Compressor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Rajdhani', sans-serif;
-      background: #111;
+      background: #000;
       color: #00ffe0;
-      text-align: center;
+      font-family: 'Orbitron', sans-serif;
       padding: 50px;
+      text-align: center;
     }
     h1 {
       font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 1.2em;
-      max-width: 600px;
-      margin: auto;
+      margin-bottom: 30px;
     }
     ul {
       list-style: none;
@@ -27,22 +22,24 @@
     }
     li {
       margin: 10px 0;
+      font-size: 1.2em;
     }
     a {
       color: #00ffe0;
       text-decoration: underline;
+      display: inline-block;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>About Us</h1>
-  <p>This ZIP Compressor tool was created by a team of passionate developers as part of a final project. Meet our team:</p>
+  <h1>🚀 About Our Team</h1>
   <ul>
     <li><strong>Char</strong> – 1123532</li>
-    <li><strong>Weili</strong> – 1123533</li>
     <li><strong>Max</strong> – 1123534</li>
+    <li><strong>Weili</strong> – 1123533</li>
     <li><strong>Reynard</strong> – 1111549</li>
   </ul>
-  <p><a href="index.html">⬅ Back to Home</a></p>
+  <a href="index.html">⬅ Back to Home</a>
 </body>
 </html>
