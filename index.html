@@ -7,29 +7,114 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <style>
+    body {
+      background-color: #0d0d0d;
+      color: #e0e0e0;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
     .file-display-container {
       display: flex;
-      gap: 20px;
+      gap: 30px;
       align-items: flex-start;
-      margin-top: 20px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .custom-file-upload {
+      position: relative;
+      display: inline-block;
+      padding: 12px 24px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      background: #111;
+      border: 2px solid #00ffe7;
+      color: #00ffe7;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      background: #00ffe7;
+      color: #000;
+    }
+
+    input[type="file"] {
+      display: none;
     }
 
     .file-names {
-      font-family: 'Rajdhani', sans-serif;
-      color: #fff;
-      background-color: #1e1e1e;
-      padding: 10px;
-      border-radius: 8px;
-      max-width: 300px;
-      word-break: break-word;
+      background: rgba(0, 255, 231, 0.07);
+      border: 1px solid #00ffe7;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 350px;
+      width: 100%;
+      box-shadow: 0 0 15px rgba(0, 255, 231, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .file-names h3 {
+      margin-top: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: #00ffe7;
     }
 
     .file-names ul {
-      padding-left: 20px;
+      list-style-type: none;
+      padding-left: 0;
+      margin: 10px 0 0 0;
+      max-height: 200px;
+      overflow-y: auto;
     }
 
     .file-names li {
-      margin-bottom: 5px;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      font-size: 15px;
+      word-break: break-all;
+    }
+
+    .futuristic-btn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-family: 'Orbitron', sans-serif;
+      background: #00ffe7;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .futuristic-btn:hover {
+      background: #00d1b5;
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #00ffe7;
+      font-weight: 600;
+      text-decoration: underline;
+      font-size: 16px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #00ffe7;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -42,14 +127,17 @@
           Select Files
           <input type="file" id="fileInput" name="files" multiple required />
         </label>
+
         <div class="file-names" id="fileList">
-          <strong>Selected Files:</strong>
+          <h3>Selected Files</h3>
           <ul id="fileNamesList"></ul>
         </div>
       </div>
       <button type="submit" class="futuristic-btn">Compress File</button>
     </form>
+
     <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
+
     <a href="convert.html" class="futuristic-btn" style="margin-top: 20px; display: inline-block;">
       File Converter
     </a>
