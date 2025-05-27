@@ -2,67 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>File Converter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="wrapper">
     <h1>File Converter</h1>
     <form id="convertForm" enctype="multipart/form-data">
-      <label for="fileInput" class="custom-file-upload">
-        Select File to Convert
-        <input type="file" id="fileInput" name="file" required />
-      </label>
-
-      <select id="formatSelect" name="format" required>
-        <option value="" disabled selected>Select target format</option>
-        <optgroup label="Images">
-          <option value="jpg">JPG</option>
-          <option value="png">PNG</option>
-          <option value="webp">WEBP</option>
-        </optgroup>
-        <optgroup label="Audio/Video">
-          <option value="mp3">MP3</option>
-          <option value="wav">WAV</option>
-          <option value="ogg">OGG</option>
-          <option value="mp4">MP4</option>
-        </optgroup>
-        <optgroup label="Documents">
-          <option value="pdf">PDF</option>
-          <option value="txt">TXT</option>
-          <option value="docx">DOCX</option>
-          <option value="html">HTML</option>
-        </optgroup>
+      <input type="file" id="convertFileInput" name="file" required style="display:none;" />
+      <label for="convertFileInput" class="custom-file-upload">Select File</label>
+      
+      <select id="convertCategory" required>
+        <option value="">Select Category</option>
+        <option value="images">Images</option>
+        <option value="documents">Documents</option>
+        <option value="audio_video">Audio & Video</option>
       </select>
-
+      
+      <select id="convertType" required>
+        <option value="">Select Target Type</option>
+        <!-- Options populated dynamically based on category -->
+      </select>
+      
       <button type="submit" class="futuristic-btn">Convert File</button>
     </form>
-
-    <a id="downloadLink" class="download-link" style="display:none; margin-top: 20px;">Download Converted File</a>
-
-    <a href="index.html" class="download-link" style="margin-top: 40px; display: inline-block;">⬅ Back to Main Page</a>
+    <a id="convertedDownloadLink" class="download-link" style="display:none;">Download Converted File</a>
   </div>
 
   <footer>
-    <a href="about.html">About Us</a>
+    <a href="index.html">⬅ Back to Main Page</a>
   </footer>
 
   <script>
-    document.getElementById('convertForm').onsubmit = async function(event) {
+    const categoryToTypes = {
+      images: ['png', 'jpg', 'gif', 'bmp'],
+      documents: ['pdf', 'docx', 'txt', 'md'],
+      audio_video: ['mp3', 'wav', 'mp4', 'avi']
+    };
+
+    const categorySelect = document.getElementById('convertCategory');
+    const typeSelect = document.getElementById('convertType');
+
+    categorySelect.addEventListener('change', () => {
+      const types = categoryToTypes[categorySelect.value] || [];
+      typeSelect.innerHTML = '<option value="">Select Target Type</option>';
+      types.forEach(type => {
+        const opt = document.createElement('option');
+        opt.value = type;
+        opt.textContent = type.toUpperCase();
+        typeSelect.appendChild(opt);
+      });
+    });
+
+    document.getElementById('convertForm').onsubmit = async (event) => {
       event.preventDefault();
+
+      const fileInput = document.getElementById('convertFileInput');
+      if (!fileInput.files.length) return alert('Please select a file.');
+
       const formData = new FormData();
-      const fileInput = document.getElementById('fileInput');
-      const formatSelect = document.getElementById('formatSelect');
-
-      if (!fileInput.files.length || !formatSelect.value) {
-        alert("Please select a file and a target format.");
-        return;
-      }
-
       formData.append('file', fileInput.files[0]);
-      formData.append('format', formatSelect.value);
+      formData.append('category', categorySelect.value);
+      formData.append('targetType', typeSelect.value);
 
       const response = await fetch('/convert', {
         method: 'POST',
@@ -72,13 +75,12 @@
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        const downloadLink = document.getElementById('downloadLink');
-        downloadLink.href = url;
-        downloadLink.download = 'converted.' + formatSelect.value;
-        downloadLink.style.display = 'inline-block';
-        downloadLink.textContent = 'Download Converted File';
+        const link = document.getElementById('convertedDownloadLink');
+        link.href = url;
+        link.download = `converted.${typeSelect.value}`;
+        link.style.display = 'inline-block';
       } else {
-        alert("Conversion failed: " + response.statusText);
+        alert('Conversion failed. Please try again.');
       }
     };
   </script>
