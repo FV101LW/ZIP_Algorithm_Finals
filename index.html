@@ -3,41 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Futuristic ZIP Compressor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&family=Zen+Dots&display=swap" rel="stylesheet"/>
+  <title>ZIP Compressor - Sci-Fi UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="background"></div>
 
   <div class="wrapper">
-    <h1>ZIP File Compressor</h1>
-    <form id="uploadForm">
+    <h1>🔷 ZIP File Compressor 🔷</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
       <label for="fileInput" class="custom-file-upload">
-        <span>Select Files</span>
-        <input type="file" id="fileInput" multiple required />
+        Select Files
+        <input type="file" id="fileInput" name="files" multiple required />
       </label>
-      <button type="submit" class="futuristic-btn">⚡ Compress File</button>
+      <button type="submit" class="futuristic-btn">🚀 Compress File</button>
     </form>
-    <a id="downloadLink" class="download-link" style="display: none;">⬇ Download Compressed File</a>
+    <a id="downloadLink" class="download-link" style="display: none;">⬇ Download</a>
   </div>
 
   <footer>
     <div class="about-section">
       <a href="about.html">About Us</a>
-      <p>Char 1123532 • Weili 1123533 • Max 1123534 • Reynard 1111549</p>
     </div>
   </footer>
 
   <script>
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
-      const files = document.getElementById('fileInput').files;
       const formData = new FormData();
+      const files = document.getElementById('fileInput').files;
       for (let file of files) {
-        formData.append('files[]', file);
+        formData.append('files', file);
       }
 
       const response = await fetch('/compress', {
@@ -48,10 +45,10 @@
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        const downloadLink = document.getElementById('downloadLink');
-        downloadLink.href = url;
-        downloadLink.download = 'compressed.zip';
-        downloadLink.style.display = 'block';
+        const link = document.getElementById('downloadLink');
+        link.href = url;
+        link.download = 'compressed.zip';
+        link.style.display = 'inline-block';
       }
     };
   </script>
