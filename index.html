@@ -15,12 +15,17 @@
         Select Files
         <input type="file" id="fileInput" name="files" multiple required />
       </label>
+      <!-- 📂 Display selected file names -->
+      <ul id="fileList" style="margin: 10px 0; font-family: 'Rajdhani', sans-serif;"></ul>
+
       <button type="submit" class="futuristic-btn">Compress File</button>
     </form>
+
     <a id="downloadLink" class="download-link" style="display: none;">Download ZIP</a>
+
     <a href="convert.html" class="futuristic-btn" style="margin-top: 20px; display: inline-block;">
-  File Converter
-</a>
+      File Converter
+    </a>
   </div>
 
   <footer>
@@ -28,10 +33,22 @@
   </footer>
 
   <script>
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+
+    fileInput.addEventListener('change', () => {
+      fileList.innerHTML = '';
+      for (let file of fileInput.files) {
+        const li = document.createElement('li');
+        li.textContent = file.name;
+        fileList.appendChild(li);
+      }
+    });
+
     document.getElementById('uploadForm').onsubmit = async function(event) {
       event.preventDefault();
       const formData = new FormData();
-      const files = document.getElementById('fileInput').files;
+      const files = fileInput.files;
       for (let file of files) {
         formData.append('files', file);
       }
